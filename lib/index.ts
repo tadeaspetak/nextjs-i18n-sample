@@ -4,8 +4,11 @@ export const getBaseUrl = (ctx?: GetServerSidePropsContext) => {
   if (!ctx) return "";
 
   const { headers } = ctx.req;
-  const protocol = headers.referer?.split("://")[0];
-  const result = `${protocol ? `${protocol}://` : ""}${headers.host}`;
+  const inferred = headers.referer?.split("://")[0];
+  const host = headers.host;
+
+  const protocol = inferred ? `${inferred}://` : `${host ? "http://" : ""}`;
+  const result = `${protocol}${host}`;
   console.log({ result });
   return result;
 };
