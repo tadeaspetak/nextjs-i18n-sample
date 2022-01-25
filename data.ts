@@ -1,5 +1,5 @@
 type Langs = { en: string; es: string };
-const posts: { id: number; date: Date; title: Langs; content: Lants }[] = [
+const posts: { id: number; date: Date; title: Langs; content: Langs }[] = [
   {
     id: 1,
     date: new Date("2022-01-01"),
