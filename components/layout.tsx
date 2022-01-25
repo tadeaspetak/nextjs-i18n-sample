@@ -1,13 +1,18 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
-import Link from 'next/link'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "./layout.module.css";
+import utilStyles from "../styles/utils.module.css";
+import Link from "next-translate-routes/link";
+import React from "react";
+import { useRouter } from "next/router";
 
-const name = '[Your Name]'
-export const siteTitle = 'Next.js Sample Website'
+export const siteTitle = "Next.js Sample Website";
 
-export default function Layout({ children, home }) {
+const Layout: React.FC<{ home?: boolean }> = ({ children, home }) => {
+  const { locale, pathname, query } = useRouter();
+
+  const name = locale === "en" ? "Johnny" : "Juan";
+
   return (
     <div className={styles.container}>
       <Head>
@@ -26,6 +31,15 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
+        {locale === "en" ? (
+          <Link href={{ pathname, query }} locale="es">
+            <a>Español</a>
+          </Link>
+        ) : (
+          <Link href={{ pathname, query }} locale="en">
+            <a>English</a>
+          </Link>
+        )}
         {home ? (
           <>
             <Image
@@ -69,5 +83,7 @@ export default function Layout({ children, home }) {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
+
+export default Layout;
