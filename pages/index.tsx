@@ -5,6 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import fetch from "node-fetch";
 import Link from "next-translate-routes/link";
 import { useRouter } from "next/router";
+import { getBaseUrl } from "../lib";
 
 interface Props {
   allPostsData: {
@@ -49,7 +50,7 @@ const Home: NextPage<Props> = ({ allPostsData }) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const data = await fetch("http://localhost:3000/api/posts");
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const data = await fetch(`${getBaseUrl(ctx)}/api/posts`);
   return { props: { allPostsData: await data.json() } };
 };

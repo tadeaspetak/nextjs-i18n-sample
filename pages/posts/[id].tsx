@@ -3,6 +3,7 @@ import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
+import { getBaseUrl } from "../../lib";
 
 interface Props {
   postData: { title: string; date: number; content: string };
@@ -26,11 +27,8 @@ const Post: NextPage<Props> = ({ postData: { title, date, content } }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({
-  params,
-}) => {
-  const data = await fetch(`http://localhost:3000/api/posts/${params.id}`);
-  console.log({ data });
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const data = await fetch(`${getBaseUrl(ctx)}/api/posts/${ctx.params.id}`);
   return { props: { postData: await data.json() } };
 };
 
